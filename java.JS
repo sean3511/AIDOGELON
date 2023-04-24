@@ -3,9 +3,23 @@ var closer =document.getElementsByClassName("close")[0];
 var background =document.getElementById("home");
 var Img_container = document.getElementsByClassName("popup-photo-container")[0]; //获得dom对象
 
+var _timer = {};
+function delay_till_last(id, fn, wait) {
+    if (_timer[id]) {
+        window.clearTimeout(_timer[id]);
+        delete _timer[id];
+    }
+ 
+    return _timer[id] = window.setTimeout(function() {
+        fn();
+        delete _timer[id];
+    }, wait);
+}
 
 $(".buybtn").click(function(){
-    $(".comming_soon_popup").fadeIn().delay(500).fadeOut();
+    delay_till_last('id', function() {//注意 id 是唯一的
+        $(".comming_soon_popup").fadeIn().css("display","flex").delay(500).fadeOut();
+    }, 300);
   });
 $(".tile").click(function(){
     //讓header透明
