@@ -3,6 +3,40 @@ var closer =document.getElementsByClassName("close")[0];
 var background =document.getElementById("home");
 var Img_container = document.getElementsByClassName("popup-photo-container")[0]; //获得dom对象
 
+
+const slider = document.querySelector('.swiper-wrapper');
+let isDown = false;
+let startX;
+let scrollLeft;
+
+slider.addEventListener('mousedown', (e) => {
+  // 按下就將 flag 設為 true
+  isDown = true;
+  slider.classList.add('active');
+  // 設立起始點
+  startX = e.pageX - slider.offsetLeft;
+  scrollLeft = slider.scrollLeft;
+});
+
+slider.addEventListener('mousemove', (e) => {
+  // 滑鼠有被按下才會繼續執行
+  if(!isDown) return;
+  // 阻止預設拖曳會選取的行為
+  e.preventDefault();
+  // 計算
+  const x = e.pageX - slider.offsetLeft;
+  const walk = (x - startX) * 3;
+  slider.scrollLeft = scrollLeft - walk;
+});
+slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+});
+slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+});
+
 var _timer = {};
 function delay_till_last(id, fn, wait) {
     if (_timer[id]) {
